@@ -1,9 +1,9 @@
 mod infrastructure;
 
-pub fn main(port: u16) {
+pub async fn main(port: u16) {
   log::info!("Hello, world!");
 
-  let service = infrastructure::service::Service::new();
+  let service = infrastructure::service::Service::new().await;
 
-  service.start(port);
+  service.start(port).await;
 }

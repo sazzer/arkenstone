@@ -18,12 +18,13 @@ impl Settings {
     }
 }
 
-fn main() {
+#[actix_rt::main]
+async fn main() {
     dotenv().ok();
     env_logger::init();
 
     let settings = Settings::new();
     log::debug!("Application settings: {:?}", settings);
 
-    arkenstone_lib::main(settings.port.unwrap_or(8000))
+    arkenstone_lib::main(settings.port.unwrap_or(8000)).await
 }
