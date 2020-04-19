@@ -1,3 +1,4 @@
+mod health;
 pub mod migrate;
 mod postgres;
 
