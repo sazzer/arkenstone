@@ -1,10 +1,10 @@
-use bb8::Pool;
+use bb8::{Pool, PooledConnection};
 use bb8_postgres::PostgresConnectionManager;
 use std::str::FromStr;
 
 /// Interface to making database calls
 pub struct Database {
-  _pool: Pool<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
+  pool: Pool<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
 }
 
 impl Database {
@@ -26,8 +26,29 @@ impl Database {
       .unwrap();
 
     pool.get().await.unwrap();
-    Self { _pool: pool }
+    Self { pool }
   }
+
+  /// Check out a connection with which we can send queries to the database
+  pub async fn checkout(
+    &self,
+  ) -> Result<
+    PooledConnection<'_, PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
+    DatabaseError,
+  > {
+    self
+      .pool
+      .get()
+      .await
+      .map_err(|e| DatabaseError::CheckoutError(format!("{}", e)))
+  }
+}
+
+/// Errors that can happen when working with the database
+#[derive(thiserror::Error, Debug)]
+pub enum DatabaseError {
+  #[error("Error checking out connection: {0}")]
+  CheckoutError(String),
 }
 
 #[cfg(test)]
@@ -42,5 +63,17 @@ mod tests {
     let db = TestDatabase::default();
 
     Database::new(db.url).await;
+  }
+
+  #[actix_rt::test]
+  async fn test_checkout() {
+    let _ = env_logger::try_init();
+
+    let db = TestDatabase::default();
+
+    let database = Database::new(db.url).await;
+    let conn = database.checkout().await.unwrap();
+
+    conn.query("SELECT 1", &[]).await.unwrap();
   }
 }

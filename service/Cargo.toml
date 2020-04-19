@@ -24,5 +24,7 @@ bb8-postgres = "0.4.0"
 tokio-postgres = "0.5.3"
 lazy_static = "1.4.0"
 testcontainers = "0.9.1"
+rust-embed = "5.5.1"
+thiserror = "1.0.15"
 
 [dev-dependencies]
