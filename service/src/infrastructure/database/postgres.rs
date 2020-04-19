@@ -29,3 +29,18 @@ impl Database {
     Self { _pool: pool }
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use crate::testing::database::TestDatabase;
+
+  #[actix_rt::test]
+  async fn test_database_connection() {
+    let _ = env_logger::try_init();
+
+    let db = TestDatabase::default();
+
+    Database::new(db.url).await;
+  }
+}

@@ -1,5 +1,6 @@
 mod infrastructure;
 pub use infrastructure::service::Settings;
+mod testing;
 
 pub async fn main(settings: Settings, port: u16) {
   let service = infrastructure::service::Service::new(settings).await;

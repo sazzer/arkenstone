@@ -22,5 +22,7 @@ actix-cors = "0.2.0"
 bb8 = "0.4.1"
 bb8-postgres = "0.4.0"
 tokio-postgres = "0.5.3"
+lazy_static = "1.4.0"
+testcontainers = "0.9.1"
 
 [dev-dependencies]
