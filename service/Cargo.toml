@@ -1,0 +1,15 @@
+[package]
+name = "arkenstone"
+version = "0.1.0"
+authors = ["Graham Cox <graham@grahamcox.co.uk>"]
+edition = "2018"
+
+[lib]
+name = "arkenstone_lib"
+
+[[bin]]
+name="arkenstone"
+
+[dependencies]
+
+[dev-dependencies]
