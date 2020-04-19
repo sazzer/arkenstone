@@ -1,3 +1,5 @@
+use super::Settings;
+use crate::infrastructure::database::Database;
 use crate::infrastructure::server::Server;
 
 /// The actual service to work with
@@ -7,7 +9,9 @@ pub struct Service {
 
 impl Service {
   /// Construct a new instance of the service
-  pub async fn new() -> Self {
+  pub async fn new(settings: Settings) -> Self {
+    let _db = Database::new(settings.database_url).await;
+
     let server = Server::new();
     Service { server: server }
   }

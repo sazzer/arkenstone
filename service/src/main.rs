@@ -6,6 +6,7 @@ use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 struct Settings {
     port: Option<u16>,
+    database_url: String,
 }
 
 impl Settings {
@@ -26,5 +27,11 @@ async fn main() {
     let settings = Settings::new();
     log::debug!("Application settings: {:?}", settings);
 
-    arkenstone_lib::main(settings.port.unwrap_or(8000)).await
+    arkenstone_lib::main(
+        arkenstone_lib::Settings {
+            database_url: settings.database_url,
+        },
+        settings.port.unwrap_or(8000),
+    )
+    .await
 }

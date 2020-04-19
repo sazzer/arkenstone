@@ -1,2 +1,3 @@
+pub(super) mod database;
 pub(super) mod server;
-pub mod service;
+pub(super) mod service;
