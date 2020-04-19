@@ -4,7 +4,9 @@ use serde::Deserialize;
 
 /// The environmental settings that are used for running the app
 #[derive(Debug, Deserialize)]
-struct Settings {}
+struct Settings {
+    port: Option<u16>,
+}
 
 impl Settings {
     /// Construct the settings from the environment
@@ -23,5 +25,5 @@ fn main() {
     let settings = Settings::new();
     log::debug!("Application settings: {:?}", settings);
 
-    arkenstone_lib::main()
+    arkenstone_lib::main(settings.port.unwrap_or(8000))
 }
