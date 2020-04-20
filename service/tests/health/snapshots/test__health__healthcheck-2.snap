@@ -1,0 +1,12 @@
+---
+source: tests/health/mod.rs
+expression: res.to_json().unwrap()
+---
+{
+  "components": {
+    "db": {
+      "healthy": true
+    }
+  },
+  "healthy": true
+}

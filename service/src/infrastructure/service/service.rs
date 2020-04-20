@@ -2,6 +2,7 @@ use super::Settings;
 use crate::infrastructure::database::{migrate::migrate_database, Database};
 use crate::infrastructure::health::configure::HealthcheckConfig;
 use crate::infrastructure::server::Server;
+use actix_http::Request;
 use std::sync::Arc;
 
 /// The actual service to work with
@@ -24,5 +25,13 @@ impl Service {
   /// Start the service running
   pub async fn start(self, port: u16) {
     self.server.start(port).await;
+  }
+
+  /// Submit a request to the server and return the response
+  pub async fn test_request(
+    &self,
+    req: Request,
+  ) -> crate::infrastructure::server::testing::TestResponse {
+    self.server.test_request(req).await
   }
 }

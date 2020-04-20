@@ -1,4 +1,6 @@
+use super::testing::TestResponse;
 use actix_cors::Cors;
+use actix_http::Request;
 use actix_web::{middleware::Logger, web, App, HttpServer};
 use std::ops::Deref;
 use std::sync::Arc;
@@ -41,5 +43,27 @@ impl Server {
       .run()
       .await
       .unwrap();
+  }
+
+  /// Submit a request to the server and return the response
+  pub async fn test_request(&self, req: Request) -> TestResponse {
+    let mut app = App::new()
+      .wrap(Logger::default())
+      .wrap(Cors::new().finish());
+    for config in self.configs.iter() {
+      app = app.configure(config.deref());
+    }
+
+    let mut app = actix_web::test::init_service(app).await;
+    let res = actix_web::test::call_service(&mut app, req).await;
+
+    let status = res.status();
+    let headers = res.headers().clone();
+    let body = actix_web::test::read_body(res).await;
+    TestResponse {
+      status: status,
+      headers: headers,
+      body: body,
+    }
   }
 }
