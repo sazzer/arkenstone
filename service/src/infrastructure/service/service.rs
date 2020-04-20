@@ -1,6 +1,6 @@
 use super::Settings;
 use crate::infrastructure::database::{migrate::migrate_database, Database};
-use crate::infrastructure::health::HealthcheckerServiceBuilder;
+use crate::infrastructure::health::configure::HealthcheckConfig;
 use crate::infrastructure::server::Server;
 use std::sync::Arc;
 
@@ -15,13 +15,9 @@ impl Service {
     let db = Database::new(settings.database_url).await;
     migrate_database(&db).await.unwrap();
 
-    let healthchecker = HealthcheckerServiceBuilder::default()
-      .with_component("db", Arc::new(db))
-      .build();
+    let healthchecker = HealthcheckConfig::default().with_component("db", Arc::new(db));
 
-    healthchecker.check_health().await;
-
-    let server = Server::new();
+    let server = Server::new(vec![healthchecker.configure()]);
     Service { server: server }
   }
 

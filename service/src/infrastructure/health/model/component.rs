@@ -4,7 +4,7 @@ use std::error::Error;
 
 /// Any component that is able to report on it's own health may implement this trait to do so
 #[async_trait]
-pub trait Component {
+pub trait Component: Send + Sync {
   /// Check the health of this component
   async fn check_health(&self) -> Result<(), Box<dyn Error>>;
 }

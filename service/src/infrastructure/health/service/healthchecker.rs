@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 /// The actual service layer that can check the health of the system
+#[derive(Clone)]
 pub struct HealthcheckerService {
   components: HashMap<String, Arc<dyn Component>>,
 }
@@ -41,7 +42,7 @@ pub struct HealthcheckerServiceBuilder {
 
 impl HealthcheckerServiceBuilder {
   /// Add a new component to the health checker that we are building
-  pub fn with_component<S>(mut self, name: S, component: Arc<dyn Component>) -> Self
+  pub fn with_component<S>(&mut self, name: S, component: Arc<dyn Component>) -> &mut Self
   where
     S: Into<String>,
   {
@@ -51,8 +52,8 @@ impl HealthcheckerServiceBuilder {
   }
 
   /// Actually build the health checker
-  pub fn build(self) -> HealthcheckerService {
-    HealthcheckerService::new(self.components)
+  pub fn build(&self) -> HealthcheckerService {
+    HealthcheckerService::new(self.components.clone())
   }
 }
 

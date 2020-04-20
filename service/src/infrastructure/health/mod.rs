@@ -1,3 +1,5 @@
+pub mod configure;
+pub(super) mod endpoints;
 mod model;
 mod service;
 
