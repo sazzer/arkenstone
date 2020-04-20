@@ -27,5 +27,6 @@ testcontainers = "0.9.1"
 rust-embed = "5.5.1"
 thiserror = "1.0.15"
 async-trait = "0.1.30"
+galvanic-assert = "0.8.7"
 
 [dev-dependencies]

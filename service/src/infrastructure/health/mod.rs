@@ -1,3 +1,5 @@
-mod component;
+mod model;
+mod service;
 
-pub use component::*;
+pub use model::*;
+pub use service::*;
