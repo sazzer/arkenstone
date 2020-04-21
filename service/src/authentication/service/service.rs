@@ -3,7 +3,7 @@ use crate::authentication::repository::Registry;
 /// The actual service to provice Authentication functionality
 #[derive(Clone)]
 pub struct AuthenticationService {
-  registry: Registry,
+  pub(super) registry: Registry,
 }
 
 impl AuthenticationService {

@@ -288,6 +288,7 @@ dependencies = [
  "config 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "dotenv 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "env_logger 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "faux 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "galvanic-assert 0.8.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "insta 0.16.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -563,6 +564,38 @@ dependencies = [
 ]
 
 [[package]]
+name = "darling"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "darling_core 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "darling_macro 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "darling_core"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "fnv 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ident_case 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "proc-macro2 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "quote 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "strsim 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "syn 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "darling_macro"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "darling_core 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "quote 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "syn 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "derivative"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -675,6 +708,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "fallible-iterator"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "faux"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "faux_macros 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "proc-macro-hack 0.5.15 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "faux_macros"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "darling 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "proc-macro-hack 0.5.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "proc-macro2 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "quote 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "syn 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "flate2"
@@ -899,6 +953,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "quick-error 1.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
+
+[[package]]
+name = "ident_case"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "idna"
@@ -1602,6 +1661,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "strsim"
+version = "0.9.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "subtle"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2006,6 +2070,9 @@ dependencies = [
 "checksum copyless 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "6ff9c56c9fb2a49c05ef0e431485a22400af20d33226dc0764d891d09e724127"
 "checksum crc32fast 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ba125de2af0df55319f41944744ad91c71113bf74a4646efff39afe1f6842db1"
 "checksum crypto-mac 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "4434400df11d95d556bac068ddfedd482915eb18fe8bea89bc80b6e4b1c179e5"
+"checksum darling 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)" = "0d706e75d87e35569db781a9b5e2416cff1236a47ed380831f959382ccd5f858"
+"checksum darling_core 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)" = "f0c960ae2da4de88a91b2d920c2a7233b400bc33cb28453a2987822d8392519b"
+"checksum darling_macro 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)" = "d9b5a2f4ac4969822c62224815d069952656cadc7084fdca9751e6d959189b72"
 "checksum derivative 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)" = "3c6d883546668a3e2011b6a716a7330b82eabb0151b138217f632c8243e17135"
 "checksum derive_more 0.99.5 (registry+https://github.com/rust-lang/crates.io-index)" = "e2323f3f47db9a0e77ce7a300605d8d2098597fc451ed1a97bb1f6411bb550a7"
 "checksum difference 2.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "524cbf6897b527295dff137cec09ecf3a05f4fddffd7dfcd1585403449e74198"
@@ -2021,6 +2088,8 @@ dependencies = [
 "checksum failure_derive 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)" = "030a733c8287d6213886dd487564ff5c8f6aae10278b3588ed177f9d18f8d231"
 "checksum fake-simd 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "e88a8acf291dafb59c2d96e8f59828f3838bb1a70398823ade51a84de6a6deed"
 "checksum fallible-iterator 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "4443176a9f2c162692bd3d352d745ef9413eec5782a80d8fd6f8a1ac692a07f7"
+"checksum faux 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)" = "bb83c674ec872dd55654bd3be03f41380aed6774889467141dd549785c4e8283"
+"checksum faux_macros 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)" = "d7de23c94766ecad730ce0211f9ca449a613f1e9ad719c40c8268f3187540f61"
 "checksum flate2 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)" = "2cfff41391129e0a856d6d822600b8d71179d46879e310417eb9c762eb178b42"
 "checksum fnv 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "2fad85553e09a6f881f739c29f0b00b0f01357c743266d478b68951ce23285f3"
 "checksum fuchsia-zircon 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "2e9763c69ebaae630ba35f74888db465e49e259ba1bc0eda7d06f4a067615d82"
@@ -2047,6 +2116,7 @@ dependencies = [
 "checksum http 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "28d569972648b2c512421b5f2a405ad6ac9666547189d0c5477a3f200f3e02f9"
 "checksum httparse 1.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "cd179ae861f0c2e53da70d892f5f3029f9594be0c41dc5269cd371691b1dc2f9"
 "checksum humantime 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "df004cfca50ef23c36850aaaa59ad52cc70d0e90243c3c7737a4dd32dc7a3c4f"
+"checksum ident_case 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 "checksum idna 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "02e2673c30ee86b5b96a9cb52ad15718aa1f966f5ab9ad54a8b95d5ca33120a9"
 "checksum indexmap 1.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "076f042c5b7b98f31d205f1249267e12a6518c1481e9dae9764af19b707d2292"
 "checksum insta 0.16.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8386e795fb3927131ea4cede203c529a333652eb6dc4ff29616b832b27e9b096"
@@ -2135,6 +2205,7 @@ dependencies = [
 "checksum socket2 0.3.12 (registry+https://github.com/rust-lang/crates.io-index)" = "03088793f677dce356f3ccc2edb1b314ad191ab702a5de3faf49304f7e104918"
 "checksum static_assertions 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "7f3eb36b47e512f8f1c9e3d10c2c1965bc992bd9cdb024fa581e2194501c83d3"
 "checksum stringprep 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "8ee348cb74b87454fff4b551cbf727025810a004f88aeacae7f85b87f4e9a1c1"
+"checksum strsim 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)" = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 "checksum subtle 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "2d67a5a62ba6e01cb2192ff309324cb4875d0c451d55fe2319433abe7a05a8ee"
 "checksum syn 0.15.44 (registry+https://github.com/rust-lang/crates.io-index)" = "9ca4b3b69a77cbe1ffc9e198781b7acb0c7365a883670e8f1c1bc66fba79a5c5"
 "checksum syn 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)" = "0df0eb663f387145cab623dea85b09c2c5b4b0aef44e945d928e682fce71bb03"

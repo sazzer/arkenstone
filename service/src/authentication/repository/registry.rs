@@ -1,14 +1,18 @@
 use super::Provider;
 use crate::authentication::ProviderName;
+#[cfg(test)]
+use faux;
 use std::collections::HashMap;
 use std::sync::Arc;
 
 /// Registry of the providers that we can work with
-#[derive(Clone)]
+#[cfg_attr(not(test), derive(Clone))]
+#[cfg_attr(test, faux::create)]
 pub struct Registry {
   providers: HashMap<ProviderName, Arc<dyn Provider>>,
 }
 
+#[cfg_attr(test, faux::methods)]
 impl Registry {
   /// Build a new registry
   pub fn new(providers: HashMap<ProviderName, Arc<dyn Provider>>) -> Self {
@@ -25,6 +29,16 @@ impl Registry {
 #[derive(Default)]
 pub struct RegistryBuilder {
   providers: HashMap<ProviderName, Arc<dyn Provider>>,
+}
+
+#[cfg(test)]
+#[cfg_attr(test, faux::methods)]
+impl Clone for Registry {
+  fn clone(&self) -> Self {
+    Self {
+      providers: self.providers.clone(),
+    }
+  }
 }
 
 impl RegistryBuilder {
