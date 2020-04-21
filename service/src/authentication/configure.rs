@@ -1,4 +1,7 @@
-use crate::authentication::repository::{google, RegistryBuilder};
+use crate::authentication::{
+  repository::{google, RegistryBuilder},
+  AuthenticationService,
+};
 use actix_web::web;
 use std::sync::Arc;
 
@@ -20,8 +23,9 @@ impl AuthenticationConfig {
   /// Build the configuration functor for the server
   pub fn configure(&self) -> Arc<dyn Fn(&mut web::ServiceConfig) + Send + Sync> {
     let registry = self.registry_builder.build();
+    let service = AuthenticationService::new(registry);
     Arc::new(move |config| {
-      config.data(registry.clone());
+      config.data(service.clone());
     })
   }
 }
