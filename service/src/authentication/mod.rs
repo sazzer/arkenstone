@@ -1,3 +1,4 @@
+pub(crate) mod configure;
 mod model;
 pub(super) mod repository;
 
