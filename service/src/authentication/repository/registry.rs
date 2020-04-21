@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 /// Registry of the providers that we can work with
+#[derive(Clone)]
 pub struct Registry {
   providers: HashMap<ProviderName, Arc<dyn Provider>>,
 }
@@ -48,10 +49,7 @@ impl RegistryBuilder {
 mod tests {
   use super::*;
   use crate::authentication::repository::MockProvider;
-  use galvanic_assert::{
-    assert_that,
-    matchers::{collection::*, *},
-  };
+  use galvanic_assert::{assert_that, matchers::collection::*};
 
   #[test]
   fn test_list_providers() {

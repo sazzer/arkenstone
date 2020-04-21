@@ -5,7 +5,7 @@ pub trait ProviderStartAuth {}
 pub trait ProviderCompleteAuth {}
 
 /// Trait that all Providers will implement
-pub trait Provider: ProviderStartAuth + ProviderCompleteAuth {}
+pub trait Provider: ProviderStartAuth + ProviderCompleteAuth + Sync + Send {}
 
 #[cfg(test)]
 pub struct MockProvider {}

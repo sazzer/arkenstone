@@ -18,7 +18,7 @@ impl Service {
     migrate_database(&db).await.unwrap();
 
     let healthchecker = HealthcheckConfig::default().with_component("db", Arc::new(db));
-    let authentication = AuthenticationConfig::default();
+    let authentication = AuthenticationConfig::default().with_google();
 
     let server = Server::new(vec![healthchecker.configure(), authentication.configure()]);
     Service { server: server }
