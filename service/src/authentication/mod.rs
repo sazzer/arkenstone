@@ -1,4 +1,5 @@
 pub(crate) mod configure;
+pub(super) mod endpoints;
 mod model;
 pub(super) mod repository;
 mod service;

@@ -1,4 +1,5 @@
 use crate::authentication::{
+  endpoints,
   repository::{google, RegistryBuilder},
   AuthenticationService,
 };
@@ -26,6 +27,7 @@ impl AuthenticationConfig {
     let service = AuthenticationService::new(registry);
     Arc::new(move |config| {
       config.data(service.clone());
+      config.route("/authentication", web::get().to(endpoints::list_providers));
     })
   }
 }
