@@ -23,6 +23,11 @@ impl Registry {
   pub fn list_providers(&self) -> Vec<&ProviderName> {
     self.providers.iter().map(|(key, _)| key).collect()
   }
+
+  /// Attempt to get the requested provider from the registry
+  pub fn find_provider(&self, provider: ProviderName) -> Option<&Arc<dyn Provider>> {
+    self.providers.get(&provider)
+  }
 }
 
 /// Builder to use to build the provider registry
@@ -63,7 +68,10 @@ impl RegistryBuilder {
 mod tests {
   use super::*;
   use crate::authentication::repository::MockProvider;
-  use galvanic_assert::{assert_that, matchers::collection::*};
+  use galvanic_assert::{
+    assert_that,
+    matchers::{collection::*, variant::*, *},
+  };
 
   #[test]
   fn test_list_providers() {
@@ -78,5 +86,27 @@ mod tests {
     let twitter: ProviderName = "twitter".parse().unwrap();
 
     assert_that!(&providers, contains_in_any_order(vec![&google, &twitter]));
+  }
+
+  #[test]
+  fn test_get_unknown_provider() {
+    let registry = RegistryBuilder::default()
+      .with_provider("twitter", Arc::new(MockProvider {}))
+      .with_provider("google", Arc::new(MockProvider {}))
+      .build();
+
+    let result = registry.find_provider("facebook".parse().unwrap());
+    assert_that!(&result.is_none(), eq(true));
+  }
+
+  #[test]
+  fn test_get_known_provider() {
+    let registry = RegistryBuilder::default()
+      .with_provider("twitter", Arc::new(MockProvider {}))
+      .with_provider("google", Arc::new(MockProvider {}))
+      .build();
+
+    let result = registry.find_provider("twitter".parse().unwrap());
+    assert_that!(&result, maybe_some(any_value())); // TODO: Assert it's the correct provider
   }
 }
