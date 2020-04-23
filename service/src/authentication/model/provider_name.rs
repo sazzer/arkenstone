@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
 use std::str::FromStr;
 
 /// New Type to represent the name of an authentication provider
@@ -23,6 +24,12 @@ impl FromStr for ProviderName {
     } else {
       Ok(Self(trimmed_name.to_owned()))
     }
+  }
+}
+
+impl From<ProviderName> for Cow<'static, str> {
+  fn from(provider_name: ProviderName) -> Cow<'static, str> {
+    provider_name.0.into()
   }
 }
 

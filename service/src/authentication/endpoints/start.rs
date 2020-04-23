@@ -1,11 +1,15 @@
-use crate::authentication::{AuthenticationService, ListProviders, ProviderName};
+use super::model::ProviderRedirect;
+use crate::authentication::{AuthenticationService, ProviderName};
 use actix_web::web;
-use serde::Serialize;
 
 /// Actix handler to start authentication with a provider
 pub async fn start(
-  authentication_service: web::Data<AuthenticationService>,
+  _authentication_service: web::Data<AuthenticationService>,
   path: web::Path<(ProviderName,)>,
-) -> String {
-  format!("{:?}", path.0)
+) -> ProviderRedirect {
+  ProviderRedirect {
+    url: "http://www.google.com".to_owned(),
+    provider: path.0.clone(),
+    nonce: "ThisIsANonce".to_owned(),
+  }
 }
