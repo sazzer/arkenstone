@@ -28,6 +28,10 @@ impl AuthenticationConfig {
     Arc::new(move |config| {
       config.data(service.clone());
       config.route("/authentication", web::get().to(endpoints::list_providers));
+      config.route(
+        "/authentication/{provider}",
+        web::get().to(endpoints::start),
+      );
     })
   }
 }

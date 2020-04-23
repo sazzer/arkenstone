@@ -1,8 +1,8 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
 /// New Type to represent the name of an authentication provider
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Serialize, PartialOrd, Ord)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Serialize, Deserialize, PartialOrd, Ord)]
 pub struct ProviderName(String);
 
 /// Errors that can occur when parsing a provider name
