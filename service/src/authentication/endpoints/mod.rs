@@ -1,5 +1,5 @@
 mod list_providers;
-mod model;
+mod problem;
 mod start;
 
 pub use list_providers::*;
