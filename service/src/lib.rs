@@ -1,4 +1,5 @@
 mod authentication;
+mod http;
 mod infrastructure;
 pub mod testing;
 
