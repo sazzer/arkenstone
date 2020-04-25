@@ -34,6 +34,10 @@ impl AuthenticationConfig {
         "/authentication/{provider}",
         web::get().to(endpoints::start),
       );
+      config.route(
+        "/authentication/{provider}/complete",
+        web::get().to(endpoints::complete),
+      );
     })
   }
 }

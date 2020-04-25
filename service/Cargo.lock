@@ -309,6 +309,7 @@ dependencies = [
  "thiserror 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio-postgres 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "uritemplate 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "url 2.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "uuid 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
