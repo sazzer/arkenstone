@@ -25,8 +25,8 @@ impl Registry {
   }
 
   /// Attempt to get the requested provider from the registry
-  pub fn find_provider(&self, provider: ProviderName) -> Option<&Arc<dyn Provider>> {
-    self.providers.get(&provider)
+  pub fn find_provider(&self, provider: &ProviderName) -> Option<&Arc<dyn Provider>> {
+    self.providers.get(provider)
   }
 }
 
@@ -76,8 +76,8 @@ mod tests {
   #[test]
   fn test_list_providers() {
     let registry = RegistryBuilder::default()
-      .with_provider("twitter", Arc::new(MockProvider {}))
-      .with_provider("google", Arc::new(MockProvider {}))
+      .with_provider("twitter", Arc::new(MockProvider::faux()))
+      .with_provider("google", Arc::new(MockProvider::faux()))
       .build();
 
     let providers = registry.list_providers();
@@ -91,22 +91,22 @@ mod tests {
   #[test]
   fn test_get_unknown_provider() {
     let registry = RegistryBuilder::default()
-      .with_provider("twitter", Arc::new(MockProvider {}))
-      .with_provider("google", Arc::new(MockProvider {}))
+      .with_provider("twitter", Arc::new(MockProvider::faux()))
+      .with_provider("google", Arc::new(MockProvider::faux()))
       .build();
 
-    let result = registry.find_provider("facebook".parse().unwrap());
+    let result = registry.find_provider(&"facebook".parse().unwrap());
     assert_that!(&result.is_none(), eq(true));
   }
 
   #[test]
   fn test_get_known_provider() {
     let registry = RegistryBuilder::default()
-      .with_provider("twitter", Arc::new(MockProvider {}))
-      .with_provider("google", Arc::new(MockProvider {}))
+      .with_provider("twitter", Arc::new(MockProvider::faux()))
+      .with_provider("google", Arc::new(MockProvider::faux()))
       .build();
 
-    let result = registry.find_provider("twitter".parse().unwrap());
+    let result = registry.find_provider(&"twitter".parse().unwrap());
     assert_that!(&result, maybe_some(any_value())); // TODO: Assert it's the correct provider
   }
 }

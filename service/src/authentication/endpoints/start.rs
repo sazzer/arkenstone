@@ -7,7 +7,7 @@ pub async fn start(
   authentication_service: web::Data<AuthenticationService>,
   path: web::Path<(ProviderName,)>,
 ) -> ProviderRedirect {
-  let response = authentication_service.start_auth(&path.0);
+  let response = authentication_service.start_auth(&path.0).unwrap();
 
   ProviderRedirect {
     url: response.url,
@@ -34,10 +34,10 @@ mod tests {
           eq(ProviderName::from_str("google").unwrap())
         );
 
-        StartAuthDetails {
+        Ok(StartAuthDetails {
           url: "http://www.google.com".to_owned(),
           nonce: "someNonce".to_owned(),
-        }
+        })
       });
     }
 

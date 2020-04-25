@@ -8,6 +8,11 @@
       "type": "shell",
       "command": "cargo run",
       "group": "build",
+      "options": {
+        "env": {
+          "RUST_BACKTRACE": "1"
+        }
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",
