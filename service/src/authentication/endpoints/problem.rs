@@ -26,3 +26,14 @@ impl From<crate::authentication::StartError> for crate::http::problem::Problem<A
     }
   }
 }
+
+impl From<crate::authentication::CompleteError> for crate::http::problem::Problem<AuthProblemType> {
+  fn from(e: crate::authentication::CompleteError) -> Self {
+    match e {
+      crate::authentication::CompleteError::UnknownProvider => crate::http::problem::Problem::new(
+        AuthProblemType::UnknownProvider,
+        actix_web::http::StatusCode::NOT_FOUND,
+      ),
+    }
+  }
+}

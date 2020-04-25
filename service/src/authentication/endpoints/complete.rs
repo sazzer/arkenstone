@@ -1,5 +1,5 @@
 use super::problem::AuthProblemType;
-use crate::authentication::{AuthenticationService, ProviderName};
+use crate::authentication::{AuthenticationService, CompleteAuth, ProviderName};
 use crate::http::problem::Problem;
 use actix_web::{web, HttpRequest};
 use std::collections::HashMap;
@@ -7,7 +7,7 @@ use url;
 
 /// Actix handler to complete authentication with a provider
 pub async fn complete(
-  _authentication_service: web::Data<AuthenticationService>,
+  authentication_service: web::Data<AuthenticationService>,
   req: HttpRequest,
   path: web::Path<(ProviderName,)>,
 ) -> Result<String, Problem<AuthProblemType>> {
@@ -27,5 +27,6 @@ pub async fn complete(
     params
   );
 
+  authentication_service.complete_auth(&path.0, params)?;
   Ok("Hello".to_owned())
 }

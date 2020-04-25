@@ -8,7 +8,7 @@ pub struct StartAuthDetails {
 
 #[derive(thiserror::Error, Debug, PartialEq)]
 pub enum StartError {
-  #[error("The reqeusted authentication provider is unknown")]
+  #[error("The requested authentication provider is unknown")]
   UnknownProvider,
 }
 
