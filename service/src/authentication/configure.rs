@@ -14,10 +14,12 @@ pub struct AuthenticationConfig {
 
 impl AuthenticationConfig {
   /// Attempt to register a Google Authentication Provider
-  pub fn with_google(mut self) -> Self {
-    self
-      .registry_builder
-      .with_provider("google", Arc::new(google::Provider {}));
+  pub fn with_google(mut self, settings: Option<google::Settings>) -> Self {
+    if let Some(settings) = settings {
+      self
+        .registry_builder
+        .with_provider("google", Arc::new(google::Provider::new(settings)));
+    }
     self
   }
 

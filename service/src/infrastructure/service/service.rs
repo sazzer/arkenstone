@@ -1,8 +1,8 @@
-use super::Settings;
 use crate::authentication::configure::AuthenticationConfig;
 use crate::infrastructure::database::{migrate::migrate_database, Database};
 use crate::infrastructure::health::configure::HealthcheckConfig;
 use crate::infrastructure::server::Server;
+use crate::Settings;
 use actix_http::Request;
 use std::sync::Arc;
 
@@ -13,12 +13,12 @@ pub struct Service {
 
 impl Service {
   /// Construct a new instance of the service
-  pub async fn new(settings: Settings) -> Self {
-    let db = Database::new(settings.database_url).await;
+  pub async fn new(settings: &Settings) -> Self {
+    let db = Database::new(settings.database_url.clone()).await;
     migrate_database(&db).await.unwrap();
 
     let healthchecker = HealthcheckConfig::default().with_component("db", Arc::new(db));
-    let authentication = AuthenticationConfig::default().with_google();
+    let authentication = AuthenticationConfig::default().with_google(settings.into());
 
     let server = Server::new(vec![healthchecker.configure(), authentication.configure()]);
     Service { server: server }

@@ -12,9 +12,10 @@ impl<'db> Service<'db> {
 
     let settings = arkenstone_lib::Settings {
       database_url: db.url.clone(),
+      ..Default::default()
     };
 
-    let service = arkenstone_lib::Service::new(settings).await;
+    let service = arkenstone_lib::Service::new(&settings).await;
 
     Service {
       _db: db,

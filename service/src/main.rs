@@ -7,6 +7,10 @@ use serde::Deserialize;
 struct Settings {
     port: Option<u16>,
     database_url: String,
+
+    google_client_id: Option<String>,
+    google_redirect_url: Option<String>,
+    google_auth_url: Option<String>,
 }
 
 impl Settings {
@@ -30,6 +34,10 @@ async fn main() {
     arkenstone_lib::main(
         arkenstone_lib::Settings {
             database_url: settings.database_url,
+
+            google_client_id: settings.google_client_id,
+            google_redirect_url: settings.google_redirect_url,
+            google_auth_url: settings.google_auth_url,
         },
         settings.port.unwrap_or(8000),
     )
