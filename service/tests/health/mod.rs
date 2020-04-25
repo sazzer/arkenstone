@@ -2,6 +2,7 @@ use actix_web::test;
 use insta::{assert_display_snapshot, assert_json_snapshot};
 
 #[actix_rt::test]
+#[cfg_attr(not(feature = "docker_tests"), ignore)]
 async fn test_healthcheck() {
   let service = crate::service::Service::new().await;
   let res = service

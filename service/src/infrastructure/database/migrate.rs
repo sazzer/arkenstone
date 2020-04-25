@@ -127,6 +127,7 @@ mod tests {
   use crate::testing::database::TestDatabase;
 
   #[actix_rt::test]
+  #[cfg_attr(not(feature = "docker_tests"), ignore)]
   async fn test_migrate() {
     env_logger::try_init().ok();
     let container = TestDatabase::new();
@@ -136,6 +137,7 @@ mod tests {
   }
 
   #[actix_rt::test]
+  #[cfg_attr(not(feature = "docker_tests"), ignore)]
   async fn test_migrate_again() {
     env_logger::try_init().ok();
     let container = TestDatabase::new();

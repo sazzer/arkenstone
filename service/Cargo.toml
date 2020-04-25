@@ -37,3 +37,6 @@ uuid = { version="0.8.1", features=["v4"] }
 insta = "0.16.0"
 faux = "0.0.4"
 galvanic-assert = "0.8.7"
+
+[features]
+docker_tests = []

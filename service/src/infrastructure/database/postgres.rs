@@ -57,6 +57,7 @@ mod tests {
   use crate::testing::database::TestDatabase;
 
   #[actix_rt::test]
+  #[cfg_attr(not(feature = "docker_tests"), ignore)]
   async fn test_database_connection() {
     let _ = env_logger::try_init();
 
@@ -66,6 +67,7 @@ mod tests {
   }
 
   #[actix_rt::test]
+  #[cfg_attr(not(feature = "docker_tests"), ignore)]
   async fn test_checkout() {
     let _ = env_logger::try_init();
 

@@ -20,6 +20,7 @@ mod tests {
   use crate::testing::database::TestDatabase;
 
   #[actix_rt::test]
+  #[cfg_attr(not(feature = "docker_tests"), ignore)]
   async fn test_check_health() {
     let _ = env_logger::try_init();
 
