@@ -29,7 +29,7 @@ impl Server {
       let mut app = App::new()
         .wrap(Logger::default())
         .wrap(Cors::new().finish());
-      for config in configs.iter() {
+      for config in &configs {
         app = app.configure(config.deref());
       }
       app
@@ -46,24 +46,24 @@ impl Server {
   }
 
   /// Submit a request to the server and return the response
-  pub async fn test_request(&self, req: Request) -> TestResponse {
+  pub async fn test_request(&self, request: Request) -> TestResponse {
     let mut app = App::new()
       .wrap(Logger::default())
       .wrap(Cors::new().finish());
-    for config in self.configs.iter() {
+    for config in &self.configs {
       app = app.configure(config.deref());
     }
 
     let mut app = actix_web::test::init_service(app).await;
-    let res = actix_web::test::call_service(&mut app, req).await;
+    let response = actix_web::test::call_service(&mut app, request).await;
 
-    let status = res.status();
-    let headers = res.headers().clone();
-    let body = actix_web::test::read_body(res).await;
+    let status = response.status();
+    let headers = response.headers().clone();
+    let body = actix_web::test::read_body(response).await;
     TestResponse {
-      status: status,
-      headers: headers,
-      body: body,
+      status,
+      headers,
+      body,
     }
   }
 }

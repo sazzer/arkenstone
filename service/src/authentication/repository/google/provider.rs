@@ -7,7 +7,7 @@ pub struct Provider {
 
 impl Provider {
   pub fn new(settings: Settings) -> Self {
-    Self { settings: settings }
+    Self { settings }
   }
 }
 

@@ -56,6 +56,6 @@ impl Image for Postgres {
   }
 
   fn with_args(self, arguments: Self::Args) -> Self {
-    Self { arguments, ..self }
+    Self { arguments }
   }
 }

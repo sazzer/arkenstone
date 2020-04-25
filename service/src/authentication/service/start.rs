@@ -2,8 +2,6 @@ use super::AuthenticationService;
 #[cfg(test)]
 use super::_FauxOriginal_AuthenticationService;
 use crate::authentication::{ProviderName, StartAuth, StartAuthDetails, StartError};
-#[cfg(test)]
-use faux;
 use uuid::Uuid;
 
 #[cfg_attr(test, faux::methods)]
@@ -16,10 +14,7 @@ impl StartAuth for AuthenticationService {
 
     let nonce = Uuid::new_v4().to_string();
     let url = provider.start_auth(&nonce);
-    Ok(StartAuthDetails {
-      url: url,
-      nonce: nonce,
-    })
+    Ok(StartAuthDetails { url, nonce })
   }
 }
 
@@ -60,7 +55,7 @@ mod tests {
     let mut captured_nonce: Option<String> = None;
     unsafe {
       faux::when!(provider.start_auth).then(|nonce| {
-        captured_nonce = Some(nonce.clone());
+        captured_nonce = Some(nonce.to_string());
         "https://www.google.com".to_owned()
       });
     }

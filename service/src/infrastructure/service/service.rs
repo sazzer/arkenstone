@@ -21,7 +21,7 @@ impl Service {
     let authentication = AuthenticationConfig::default().with_google(settings.into());
 
     let server = Server::new(vec![healthchecker.configure(), authentication.configure()]);
-    Service { server: server }
+    Self { server }
   }
 
   /// Start the service running

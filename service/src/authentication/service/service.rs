@@ -1,6 +1,4 @@
 use crate::authentication::repository::Registry;
-#[cfg(test)]
-use faux;
 
 /// The actual service to provice Authentication functionality
 #[cfg_attr(not(test), derive(Clone))]

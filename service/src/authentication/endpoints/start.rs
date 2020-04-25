@@ -53,7 +53,6 @@ pub async fn start(
 mod tests {
   use super::*;
   use crate::authentication::{ProviderName, StartAuthDetails, StartError};
-  use faux;
   use galvanic_assert::{assert_that, is_variant, matchers::*};
   use std::str::FromStr;
 

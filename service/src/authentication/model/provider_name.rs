@@ -19,7 +19,7 @@ impl FromStr for ProviderName {
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     let trimmed_name = s.trim();
 
-    if trimmed_name.len() == 0 {
+    if trimmed_name.is_empty() {
       Err(ProviderNameParseError::Blank)
     } else {
       Ok(Self(trimmed_name.to_owned()))

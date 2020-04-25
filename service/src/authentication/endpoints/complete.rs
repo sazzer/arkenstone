@@ -3,7 +3,6 @@ use crate::authentication::{AuthenticationService, CompleteAuth, ProviderName};
 use crate::http::problem::Problem;
 use actix_web::{web, HttpRequest};
 use std::collections::HashMap;
-use url;
 
 /// Actix handler to complete authentication with a provider
 pub async fn complete(
@@ -11,15 +10,11 @@ pub async fn complete(
   req: HttpRequest,
   path: web::Path<(ProviderName,)>,
 ) -> Result<String, Problem<AuthProblemType>> {
-  let params: HashMap<String, String> = req
-    .uri()
-    .query()
-    .map(|v| {
-      url::form_urlencoded::parse(v.as_bytes())
-        .into_owned()
-        .collect()
-    })
-    .unwrap_or_else(HashMap::new);
+  let params: HashMap<String, String> = req.uri().query().map_or_else(HashMap::new, |v| {
+    url::form_urlencoded::parse(v.as_bytes())
+      .into_owned()
+      .collect()
+  });
 
   log::info!(
     "Completing authentication with provider {:?} and parameters {:?}",

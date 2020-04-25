@@ -1,7 +1,5 @@
 use super::Provider;
 use crate::authentication::ProviderName;
-#[cfg(test)]
-use faux;
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -53,7 +51,7 @@ impl RegistryBuilder {
     S: Into<String>,
   {
     let provider_name: ProviderName = name.into().parse().unwrap();
-    self.providers.insert(provider_name, provider.clone());
+    self.providers.insert(provider_name, provider);
 
     self
   }

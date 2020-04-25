@@ -80,7 +80,7 @@ async fn apply_migrations(
   let applied_migrations = list_applied_migrations(&transaction).await?;
 
   let mut count = 0;
-  for migration in all_migrations.iter() {
+  for migration in &all_migrations {
     if applied_migrations.contains(migration) {
       log::debug!("Migration already applied: {}", migration);
     } else {
@@ -96,7 +96,7 @@ async fn apply_migrations(
           &[migration],
         )
         .await?;
-      count = count + 1;
+      count += 1;
     }
   }
   log::info!(
@@ -112,13 +112,13 @@ async fn apply_migrations(
 #[derive(Error, Debug)]
 pub enum MigrationError {
   #[error("Failed to get connection from pool: {0}")]
-  DatabasePoolError(#[from] super::DatabaseError),
+  DatabasePool(#[from] super::DatabaseError),
 
   #[error("Failed to execute query against database: {0}")]
-  DatabaseError(#[from] tokio_postgres::Error),
+  Database(#[from] tokio_postgres::Error),
 
   #[error("Failed to parse migration file: {0}")]
-  FileParseError(#[from] std::str::Utf8Error),
+  FileParse(#[from] std::str::Utf8Error),
 }
 
 #[cfg(test)]

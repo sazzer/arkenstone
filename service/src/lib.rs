@@ -1,3 +1,12 @@
+#![cfg_attr(
+  feature = "cargo-clippy",
+  allow(
+    clippy::module_name_repetitions,
+    clippy::module_inception,
+    clippy::used_underscore_binding
+  )
+)]
+
 mod authentication;
 mod http;
 mod infrastructure;

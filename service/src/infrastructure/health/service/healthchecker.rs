@@ -18,7 +18,7 @@ impl HealthcheckerService {
   pub async fn check_health(&self) -> SystemHealth {
     let mut results = HashMap::new();
 
-    for (name, component) in self.components.iter() {
+    for (name, component) in &self.components {
       let result = component.check_health().await;
 
       results.insert(

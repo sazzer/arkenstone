@@ -27,8 +27,8 @@ where
   /// Create a new Problem instance
   pub fn new(error: T, status: StatusCode) -> Self {
     Self {
-      error: error,
-      status: status,
+      error,
+      status,
       detail: None,
       instance: None,
       extra: HashMap::new(),
@@ -66,10 +66,7 @@ where
     let mut extra = self.extra;
     extra.insert(key.into(), serde_json::to_value(value).unwrap());
 
-    Self {
-      extra: extra,
-      ..self
-    }
+    Self { extra, ..self }
   }
 }
 

@@ -3,7 +3,7 @@ use crate::authentication::repository::ProviderStartAuth;
 use uritemplate::UriTemplate;
 
 impl ProviderStartAuth for Provider {
-  fn start_auth(&self, nonce: &String) -> String {
+  fn start_auth(&self, nonce: &str) -> String {
     log::info!(
       "Creating authentication URL for Google with Nonce: {} and Settings: {:?}",
       nonce,
@@ -15,7 +15,7 @@ impl ProviderStartAuth for Provider {
       .set("redirect_uri", self.settings.redirect_url.as_str())
       .set("response_type", "code")
       .set("scope", "openid email profile")
-      .set("state", nonce.as_str())
+      .set("state", nonce)
       .build();
 
     log::debug!("Build URI for authentication with Google: {}", uri);

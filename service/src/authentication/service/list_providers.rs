@@ -2,8 +2,6 @@ use super::AuthenticationService;
 #[cfg(test)]
 use super::_FauxOriginal_AuthenticationService;
 use crate::authentication::{ListProviders, ProviderName};
-#[cfg(test)]
-use faux;
 
 #[cfg_attr(test, faux::methods)]
 impl ListProviders for AuthenticationService {

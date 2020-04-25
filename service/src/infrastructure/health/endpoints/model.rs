@@ -46,9 +46,10 @@ impl Responder for SystemHealthModel {
   type Future = Ready<Result<HttpResponse, Error>>;
 
   fn respond_to(self, _req: &HttpRequest) -> Self::Future {
-    let status_code = match self.healthy {
-      true => StatusCode::OK,
-      false => StatusCode::SERVICE_UNAVAILABLE,
+    let status_code = if self.healthy {
+      StatusCode::OK
+    } else {
+      StatusCode::SERVICE_UNAVAILABLE
     };
 
     ready(Ok(HttpResponse::build(status_code).json(self)))

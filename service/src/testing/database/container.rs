@@ -22,6 +22,7 @@ impl<'d> Default for TestDatabase<'d> {
 }
 
 impl<'d> TestDatabase<'d> {
+  #[must_use]
   pub fn new() -> Self {
     log::info!("Starting Postgres database");
     let node = DOCKER.run(Postgres::default());

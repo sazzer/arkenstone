@@ -26,7 +26,7 @@ pub async fn list_providers(
   providers.sort();
 
   ProvidersList {
-    providers: providers.into_iter().map(|p| p.clone()).collect(),
+    providers: providers.into_iter().cloned().collect(),
   }
 }
 
@@ -34,7 +34,6 @@ pub async fn list_providers(
 mod tests {
   use super::*;
   use crate::authentication::ProviderName;
-  use faux;
   use galvanic_assert::{assert_that, matchers::collection::*};
 
   #[actix_rt::test]

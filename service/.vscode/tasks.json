@@ -41,7 +41,7 @@
     {
       "label": "cargo clippy",
       "type": "shell",
-      "command": "cargo clippy --lib --tests --all-features -- -D clippy::pedantic -D clippy::nursery",
+      "command": "cargo clippy --lib --tests --all-features -- -D clippy::pedantic",
       "group": "test",
       "presentation": {
         "echo": true,
