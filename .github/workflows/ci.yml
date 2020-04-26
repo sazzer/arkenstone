@@ -64,9 +64,7 @@ jobs:
       - build-service
       - build-service-container
     steps:
-      - name: Label when approved
-        uses: TimonVS/pr-labeler-action@v3
+      - uses: actions/checkout@v1
+      - uses: maxkomarychev/merge-pal-action@v0.5.1
         with:
-          configuration-path: .github/pr-labeler.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
