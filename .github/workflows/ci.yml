@@ -1,0 +1,58 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-service:
+    runs-on: ubuntu-latest
+    env:
+      RUST_LOG: "debug"
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+
+      - name: Cargo Check
+        run: |
+          cd service
+          cargo check
+
+      - name: Cargo Clippy
+        run: |
+          cd service
+          cargo clippy
+
+      - name: Cargo Test
+        run: |
+          cd service
+          cargo test --features docker_tests
+
+  build-service-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Docker Registry Login
+        run: docker login -u publisher -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+
+      - name: Build Builder Container
+        run: |
+          export DOCKER_IMAGE_TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
+          export CONTAINER_ID=docker.pkg.github.com/${GITHUB_REPOSITORY}/arkenstone-service
+          cd service
+          docker pull ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} || true
+          docker build -t ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} --cache-from ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} --target builder .
+          docker push ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG}
+
+      - name: Build Final Container
+        run: |
+          export DOCKER_IMAGE_TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
+          export CONTAINER_ID=docker.pkg.github.com/${GITHUB_REPOSITORY}/arkenstone-service
+          cd service
+          docker build -t ${CONTAINER_ID}:latest-${DOCKER_IMAGE_TAG} --cache-from ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} .
+          docker push ${CONTAINER_ID}:latest-${DOCKER_IMAGE_TAG}
