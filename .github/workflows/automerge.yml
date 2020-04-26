@@ -1,29 +1,25 @@
-name: automerge
+name: Merge Pal (events)
+
 on:
-  pull_request:
+  push: {} # update PR when base branch is updated
+  status: {} # try to merge when other checks are completed
+  pull_request_review: # try to merge after review
+    types:
+      - submitted
+      - edited
+      - dismissed
+  pull_request: # try to merge if labels have changed (white/black list)
     types:
       - labeled
       - unlabeled
-      - synchronize
-      - opened
-      - edited
-      - ready_for_review
-      - reopened
-      - unlocked
-  pull_request_review:
-    types:
-      - submitted
-  check_suite:
-    types:
-      - completed
-  status: {}
+
 jobs:
-  automerge:
+  # thats's all. single step is needed - if PR is mergeable according to
+  # branch protection rules it will be merged automatically
+  mergepal:
     runs-on: ubuntu-latest
     steps:
-      - name: automerge
-        uses: "pascalgn/automerge-action@135f0bdb927d9807b5446f7ca9ecc2c51de03c4a"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_FORKS: "false"
-          MERGE_DELETE_BRANCH: "true"
+      - uses: actions/checkout@v1
+      - uses: maxkomarychev/merge-pal-action@v0.5.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
