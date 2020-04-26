@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  arkenstone-test-postgres:
+    image: postgres:11.6-alpine
+    environment:
+      POSTGRES_DB: arkenstone
+      POSTGRES_USER: arkenstone
+      POSTGRES_PASSWORD: arkenstone
+    networks:
+      - arkenstone-test
+
+  arkenstone-test-service:
+    image: arkenstone-service
+    environment:
+      PORT: 8000
+      DATABASE_URL: postgres://arkenstone:arkenstone@arkenstone-test-postgres:5432/arkenstone
+      RUST_LOG: debug
+    ports:
+        - "127.0.0.1:38000:8000"
+    networks:
+      - arkenstone-test
+
+networks:
+  arkenstone-test:
