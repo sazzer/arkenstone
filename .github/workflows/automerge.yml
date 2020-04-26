@@ -28,3 +28,5 @@ jobs:
           MERGE_LABELS: ""
           MERGE_FORKS: "false"
           MERGE_DELETE_BRANCH: "true"
+          MERGE_RETRIES: "30"
+          MERGE_RETRY_SLEEP: "60000"
