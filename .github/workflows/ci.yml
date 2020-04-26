@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUST_LOG: "debug"
+      RUST_BACKTRACE: "1"
     steps:
       - uses: actions/checkout@v1
 
