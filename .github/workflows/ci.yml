@@ -57,3 +57,16 @@ jobs:
           cd service
           docker build -t ${CONTAINER_ID}:latest-${DOCKER_IMAGE_TAG} --cache-from ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} .
           docker push ${CONTAINER_ID}:latest-${DOCKER_IMAGE_TAG}
+
+  label-pull-request:
+    runs-on: ubuntu-latest
+    needs:
+      - build-service
+      - build-service-container
+    steps:
+      - name: Label when approved
+        uses: TimonVS/pr-labeler-action@v3
+        with:
+          configuration-path: .github/pr-labeler.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
