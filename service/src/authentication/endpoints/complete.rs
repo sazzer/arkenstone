@@ -22,6 +22,8 @@ pub async fn complete(
     params
   );
 
-  authentication_service.complete_auth(&path.0, params)?;
+  authentication_service
+    .complete_auth(&path.0, params)
+    .await?;
   Ok("Hello".to_owned())
 }

@@ -1,4 +1,5 @@
 use crate::authentication::ProviderName;
+use async_trait::async_trait;
 use std::collections::HashMap;
 
 #[derive(thiserror::Error, Debug, PartialEq)]
@@ -8,9 +9,10 @@ pub enum CompleteError {
 }
 
 /// Base trait for completing authentication with a provider
+#[async_trait]
 pub trait CompleteAuth {
   /// Complete authentication with the provider and return the external user details
-  fn complete_auth(
+  async fn complete_auth(
     &self,
     provider: &ProviderName,
     params: HashMap<String, String>,
