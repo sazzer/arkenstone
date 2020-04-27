@@ -38,22 +38,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Docker Registry Login
-        run: docker login -u publisher -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
-
-      - name: Build Builder Container
+      - name: Get the git tag
         run: |
-          export DOCKER_IMAGE_TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
-          export CONTAINER_ID=docker.pkg.github.com/${GITHUB_REPOSITORY}/arkenstone-service
-          cd service
-          docker pull ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} || true
-          docker build -t ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} --cache-from ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} --target builder .
-          docker push ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG}
+          echo ::set-env name=GIT_TAG::$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
 
-      - name: Build Final Container
-        run: |
-          export DOCKER_IMAGE_TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
-          export CONTAINER_ID=docker.pkg.github.com/${GITHUB_REPOSITORY}/arkenstone-service
-          cd service
-          docker build -t ${CONTAINER_ID}:latest-${DOCKER_IMAGE_TAG} --cache-from ${CONTAINER_ID}:builder-${DOCKER_IMAGE_TAG} .
-          docker push ${CONTAINER_ID}:latest-${DOCKER_IMAGE_TAG}
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          registry: docker.pkg.github.com
+          username: "publisher"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          image_name: "${{ format('{0}/arkenstone-service', github.repository) }}"
+          image_tag: "${{ env.GIT_TAG }}"
+          push_git_tag: true
+          context: service
