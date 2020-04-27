@@ -1,5 +1,5 @@
 use super::Provider;
-use crate::authentication::repository::ProviderCompleteAuth;
+use crate::authentication::repository::{CompletedAuth, ProviderCompleteAuth};
 use async_trait::async_trait;
 use jsonwebtoken;
 use reqwest;
@@ -17,8 +17,8 @@ pub struct GoogleToken {
 #[derive(Debug, Deserialize)]
 pub struct GoogleClaims {
   sub: String,
-  email: Option<String>,
-  name: Option<String>,
+  email: String,
+  name: String,
   picture: Option<String>,
 }
 
@@ -45,9 +45,20 @@ impl TryFrom<GoogleToken> for GoogleClaims {
   }
 }
 
+impl From<GoogleClaims> for CompletedAuth {
+  fn from(claims: GoogleClaims) -> Self {
+    Self {
+      external_id: claims.sub,
+      display_name: claims.email,
+      name: claims.name,
+      avatar_url: claims.picture,
+    }
+  }
+}
+
 #[async_trait]
 impl ProviderCompleteAuth for Provider {
-  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<(), ()> {
+  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<CompletedAuth, ()> {
     let client = reqwest::Client::new();
 
     let params = [
@@ -81,6 +92,6 @@ impl ProviderCompleteAuth for Provider {
     let claims: GoogleClaims = body.try_into().unwrap();
     log::debug!("User Claims from Google: {:?}", claims);
 
-    Ok(())
+    Ok(claims.into())
   }
 }

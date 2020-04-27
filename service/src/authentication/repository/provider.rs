@@ -7,11 +7,20 @@ pub trait ProviderStartAuth {
   fn start_auth(&self, nonce: &str) -> String;
 }
 
+/// Details of a completed authentication from an authentication provider
+#[derive(Debug)]
+pub struct CompletedAuth {
+  pub external_id: String,
+  pub display_name: String,
+  pub name: String,
+  pub avatar_url: Option<String>,
+}
+
 /// Base trait for completing authentication with a provider
 #[async_trait]
 pub trait ProviderCompleteAuth {
   /// Complete authentication and return the details of the user that has authenticated
-  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<(), ()>;
+  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<CompletedAuth, ()>;
 }
 
 /// Trait that all Providers will implement
@@ -33,7 +42,7 @@ impl ProviderStartAuth for MockProvider {
 #[cfg_attr(test, faux::methods)]
 #[async_trait]
 impl ProviderCompleteAuth for MockProvider {
-  async fn complete_auth(&self, _params: HashMap<String, String>) -> Result<(), ()> {
+  async fn complete_auth(&self, _params: HashMap<String, String>) -> Result<CompletedAuth, ()> {
     todo!()
   }
 }
