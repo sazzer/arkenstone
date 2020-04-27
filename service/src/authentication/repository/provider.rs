@@ -33,7 +33,7 @@ impl ProviderStartAuth for MockProvider {
 #[cfg_attr(test, faux::methods)]
 #[async_trait]
 impl ProviderCompleteAuth for MockProvider {
-  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<(), ()> {
+  async fn complete_auth(&self, _params: HashMap<String, String>) -> Result<(), ()> {
     todo!()
   }
 }

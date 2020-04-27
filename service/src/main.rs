@@ -9,8 +9,10 @@ struct Settings {
     database_url: String,
 
     google_client_id: Option<String>,
+    google_client_secret: Option<String>,
     google_redirect_url: Option<String>,
     google_auth_url: Option<String>,
+    google_token_url: Option<String>,
 }
 
 impl Settings {
@@ -36,8 +38,10 @@ async fn main() {
             database_url: settings.database_url,
 
             google_client_id: settings.google_client_id,
+            google_client_secret: settings.google_client_secret,
             google_redirect_url: settings.google_redirect_url,
             google_auth_url: settings.google_auth_url,
+            google_token_url: settings.google_token_url,
         },
         settings.port.unwrap_or(8000),
     )

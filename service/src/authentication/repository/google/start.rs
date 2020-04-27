@@ -33,8 +33,10 @@ mod tests {
   fn test_start_auth() {
     let sut = Provider::new(Settings {
       client_id: "someClientId".to_owned(),
+      client_secret: "someClientId".to_owned(),
       redirect_url: "http://localhost:8080/authentication/google/complete".to_owned(),
       auth_url: "https://accounts.google.com/o/oauth2/v2/auth{?client_id,response_type,scope,redirect_uri,state}".to_owned(),
+      token_url: "https://www.googleapis.com/oauth2/v4/token".to_owned(),
     });
 
     let result = sut.start_auth(&"someNonce".to_owned());
