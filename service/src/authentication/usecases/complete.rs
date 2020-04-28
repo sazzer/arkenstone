@@ -1,4 +1,4 @@
-use crate::authentication::ProviderName;
+use crate::authentication::{repository::CompleteAuthError, ProviderName};
 use async_trait::async_trait;
 use std::collections::HashMap;
 
@@ -6,6 +6,9 @@ use std::collections::HashMap;
 pub enum CompleteError {
   #[error("The requested authentication provider is unknown")]
   UnknownProvider,
+
+  #[error("Failed to authenticate user")]
+  AuthenticationError(#[from] CompleteAuthError),
 }
 
 /// Base trait for completing authentication with a provider

@@ -1,3 +1,4 @@
+mod claims;
 mod complete;
 mod provider;
 mod settings;

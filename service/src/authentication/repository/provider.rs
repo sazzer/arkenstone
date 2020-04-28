@@ -16,11 +16,21 @@ pub struct CompletedAuth {
   pub avatar_url: Option<String>,
 }
 
+/// Errors that can happen when completing authentication
+#[derive(thiserror::Error, Debug, PartialEq)]
+pub enum CompleteAuthError {
+  #[error("Authentication failed with the authentication provider: {0}")]
+  AuthenticationError(String),
+}
+
 /// Base trait for completing authentication with a provider
 #[async_trait]
 pub trait ProviderCompleteAuth {
   /// Complete authentication and return the details of the user that has authenticated
-  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<CompletedAuth, ()>;
+  async fn complete_auth(
+    &self,
+    params: HashMap<String, String>,
+  ) -> Result<CompletedAuth, CompleteAuthError>;
 }
 
 /// Trait that all Providers will implement
@@ -42,7 +52,10 @@ impl ProviderStartAuth for MockProvider {
 #[cfg_attr(test, faux::methods)]
 #[async_trait]
 impl ProviderCompleteAuth for MockProvider {
-  async fn complete_auth(&self, _params: HashMap<String, String>) -> Result<CompletedAuth, ()> {
+  async fn complete_auth(
+    &self,
+    _params: HashMap<String, String>,
+  ) -> Result<CompletedAuth, CompleteAuthError> {
     todo!()
   }
 }

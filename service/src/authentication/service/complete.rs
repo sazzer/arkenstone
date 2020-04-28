@@ -18,7 +18,7 @@ impl CompleteAuth for AuthenticationService {
       .find_provider(provider_name)
       .ok_or(CompleteError::UnknownProvider)?;
 
-    let user_details = provider.complete_auth(params).await.unwrap();
+    let user_details = provider.complete_auth(params).await?;
     log::info!(
       "Authenticated as user {:?} with provider {:?}",
       user_details,

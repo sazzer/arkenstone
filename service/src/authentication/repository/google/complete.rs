@@ -1,64 +1,19 @@
-use super::Provider;
-use crate::authentication::repository::{CompletedAuth, ProviderCompleteAuth};
+use super::{
+  claims::{GoogleClaims, GoogleToken},
+  Provider,
+};
+use crate::authentication::repository::{CompleteAuthError, CompletedAuth, ProviderCompleteAuth};
 use async_trait::async_trait;
-use jsonwebtoken;
 use reqwest;
-use serde::Deserialize;
 use std::collections::HashMap;
-use std::convert::{TryFrom, TryInto};
-
-/// The shape of the Token details retrieved from Google
-#[derive(Debug, Deserialize)]
-pub struct GoogleToken {
-  id_token: Option<String>,
-}
-
-/// The shape of the claims inside the ID Token from Google
-#[derive(Debug, Deserialize)]
-pub struct GoogleClaims {
-  sub: String,
-  email: String,
-  name: String,
-  picture: Option<String>,
-}
-
-/// The errors that can occur when decoding the ID Token
-#[derive(Debug, thiserror::Error)]
-pub enum ClaimsError {
-  #[error("No ID Token was present")]
-  MissingIdToken,
-
-  #[error("An error occurred decoding the ID Token: {0}")]
-  DecodeError(#[from] jsonwebtoken::errors::Error),
-}
-
-impl TryFrom<GoogleToken> for GoogleClaims {
-  type Error = ClaimsError;
-
-  fn try_from(token: GoogleToken) -> Result<Self, Self::Error> {
-    let id_token = token.id_token.ok_or(ClaimsError::MissingIdToken)?;
-
-    let token = jsonwebtoken::dangerous_unsafe_decode::<GoogleClaims>(&id_token)?;
-    log::info!("Decoded claims: {:?}", token);
-
-    Ok(token.claims)
-  }
-}
-
-impl From<GoogleClaims> for CompletedAuth {
-  fn from(claims: GoogleClaims) -> Self {
-    Self {
-      external_id: claims.sub,
-      display_name: claims.email,
-      name: claims.name,
-      avatar_url: claims.picture,
-    }
-  }
-}
+use std::convert::TryInto;
 
 #[async_trait]
 impl ProviderCompleteAuth for Provider {
-  async fn complete_auth(&self, params: HashMap<String, String>) -> Result<CompletedAuth, ()> {
+  async fn complete_auth(
+    &self,
+    params: HashMap<String, String>,
+  ) -> Result<CompletedAuth, CompleteAuthError> {
     let client = reqwest::Client::new();
 
     let params = [
@@ -79,17 +34,22 @@ impl ProviderCompleteAuth for Provider {
       .form(&params)
       .send()
       .await
-      .unwrap();
+      .map_err(|e| CompleteAuthError::AuthenticationError(e.to_string()))?;
     log::debug!("Response from Google: {:#?}", response);
 
     if response.status().as_u16() != 200 {
       let body = response.text().await.unwrap();
       log::warn!("Unsuccessful response received from Google: {}", body);
-      todo!()
+      return Err(CompleteAuthError::AuthenticationError(
+        "Unsuccessful response received from Google".to_owned(),
+      ));
     }
 
-    let body: GoogleToken = response.json().await.unwrap();
-    let claims: GoogleClaims = body.try_into().unwrap();
+    let body: GoogleToken = response
+      .json()
+      .await
+      .map_err(|e| CompleteAuthError::AuthenticationError(e.to_string()))?;
+    let claims: GoogleClaims = body.try_into()?;
     log::debug!("User Claims from Google: {:?}", claims);
 
     Ok(claims.into())
