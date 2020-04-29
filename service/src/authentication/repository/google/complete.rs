@@ -55,3 +55,51 @@ impl ProviderCompleteAuth for Provider {
     Ok(claims.into())
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use crate::authentication::repository::google::Settings;
+  use galvanic_assert::{assert_that, matchers::*};
+  use serde_json::json;
+  use wiremock::{
+    matchers::{method, path},
+    Mock, MockServer, ResponseTemplate,
+  };
+
+  #[actix_rt::test]
+  async fn test_complete_unsuccessfully() {
+    let _ = env_logger::try_init();
+    let mock_server = MockServer::start().await;
+
+    Mock::given(method("POST"))
+      .and(path("/oauth2/v4/token"))
+      .respond_with(ResponseTemplate::new(400).set_body_json(json!(
+        {
+          "error": "invalid_grant",
+          "error_description": "Malformed auth code."
+        }
+      )))
+      .mount(&mock_server)
+      .await;
+
+    let sut = Provider::new(Settings {
+      client_id: "someClientId".to_owned(),
+      client_secret: "someClientSecret".to_owned(),
+      redirect_url: "http://localhost:8080/authentication/google/complete".to_owned(),
+      auth_url: "https://accounts.google.com/o/oauth2/v2/auth{?client_id,response_type,scope,redirect_uri,state}".to_owned(),
+      token_url: format!("{}/oauth2/v4/token", &mock_server.uri()),
+    });
+
+    let mut input = HashMap::new();
+    input.insert("code".to_owned(), "someAuthCode".to_owned());
+
+    let result = sut.complete_auth(input).await.unwrap_err();
+    assert_that!(
+      &result,
+      eq(CompleteAuthError::AuthenticationError(
+        "Unsuccessful response received from Google".to_owned()
+      ))
+    );
+  }
+}

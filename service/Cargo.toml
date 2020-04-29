@@ -41,6 +41,7 @@ jsonwebtoken = "7.1.0"
 insta = "0.16.0"
 faux = "0.0.4"
 galvanic-assert = "0.8.7"
+wiremock = "0.1.1"
 
 [features]
 docker_tests = []
