@@ -19,7 +19,7 @@ impl Service {
         migrate_database(&db).await.unwrap();
 
         let healthchecker = HealthcheckConfig::default().with_component("db", Arc::new(db));
-        let players = PlayersConfig::default();
+        let players = PlayersConfig::new();
         let authentication = AuthenticationConfig::default().with_google(settings.into());
 
         let server = Server::new(vec![
