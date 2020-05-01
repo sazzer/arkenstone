@@ -4,7 +4,6 @@ use super::{
 };
 use crate::authentication::repository::{CompleteAuthError, CompletedAuth, ProviderCompleteAuth};
 use async_trait::async_trait;
-use reqwest;
 use std::collections::HashMap;
 use std::convert::TryInto;
 
