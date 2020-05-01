@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 /// Configurer for the Players System
 pub struct PlayersConfig {
-    player_service: PlayerService,
+    pub player_service: PlayerService,
 }
 
 impl PlayersConfig {
