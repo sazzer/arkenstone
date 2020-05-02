@@ -1,6 +1,4 @@
 use super::AuthenticationService;
-#[cfg(test)]
-use super::_FauxOriginal_AuthenticationService;
 use crate::authentication::{repository::CompletedAuth, CompleteAuth, CompleteError, ProviderName};
 use crate::players::{RegisterUser, UserRegistration};
 use async_trait::async_trait;
@@ -18,7 +16,6 @@ impl From<CompletedAuth> for UserRegistration {
     }
 }
 
-#[cfg_attr(test, faux::methods)]
 #[async_trait]
 impl CompleteAuth for AuthenticationService {
     async fn complete_auth(

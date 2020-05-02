@@ -35,31 +35,3 @@ pub trait ProviderCompleteAuth {
 
 /// Trait that all Providers will implement
 pub trait Provider: ProviderStartAuth + ProviderCompleteAuth + Sync + Send {}
-
-#[cfg(test)]
-#[cfg_attr(test, faux::create)]
-pub struct MockProvider {}
-
-#[cfg(test)]
-#[cfg_attr(test, faux::methods)]
-impl ProviderStartAuth for MockProvider {
-    fn start_auth(&self, _nonce: &str) -> String {
-        todo!()
-    }
-}
-
-#[cfg(test)]
-#[cfg_attr(test, faux::methods)]
-#[async_trait]
-impl ProviderCompleteAuth for MockProvider {
-    async fn complete_auth(
-        &self,
-        _params: HashMap<String, String>,
-    ) -> Result<CompletedAuth, CompleteAuthError> {
-        todo!()
-    }
-}
-
-#[cfg(test)]
-#[cfg_attr(test, faux::methods)]
-impl Provider for MockProvider {}
