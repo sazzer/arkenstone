@@ -31,10 +31,13 @@ impl CompleteAuth for AuthenticationService {
             avatar_url: user_details.avatar_url,
         };
 
-        self.player_service
+        let player = self
+            .player_service
             .register_user(registration)
             .await
             .unwrap();
+
+        log::info!("Authenticated as player {:?}", player);
 
         Ok(())
     }
