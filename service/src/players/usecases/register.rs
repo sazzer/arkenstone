@@ -1,3 +1,4 @@
+use crate::players::PlayerModel;
 use async_trait::async_trait;
 
 /// Details needed to register a new user
@@ -14,5 +15,5 @@ pub struct UserRegistration {
 #[async_trait]
 pub trait RegisterUser {
     /// Actually attempt to register a new user
-    async fn register_user(&self, registration: UserRegistration) -> Result<(), ()>;
+    async fn register_user(&self, registration: UserRegistration) -> Result<PlayerModel, ()>;
 }
