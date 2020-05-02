@@ -1,0 +1,6 @@
+---
+source: tests/test.rs
+expression: res.headers()
+---
+HTTP/1.1 400 Bad Request
+content-type: application/problem+json

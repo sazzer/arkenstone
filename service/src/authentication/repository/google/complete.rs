@@ -13,6 +13,12 @@ impl ProviderCompleteAuth for Provider {
         &self,
         params: HashMap<String, String>,
     ) -> Result<CompletedAuth, CompleteAuthError> {
+        let auth_code = params
+            .get("code")
+            .ok_or(CompleteAuthError::AuthenticationError(
+                "Missing required parameter: code".to_owned(),
+            ))?;
+
         let client = reqwest::Client::new();
 
         let params = [
@@ -20,7 +26,7 @@ impl ProviderCompleteAuth for Provider {
             ("client_id", self.settings.client_id.as_ref()),
             ("client_secret", self.settings.client_secret.as_ref()),
             ("redirect_uri", self.settings.redirect_url.as_ref()),
-            ("code", params.get("code").unwrap().as_ref()),
+            ("code", auth_code),
         ];
         log::debug!(
             "Making request to URL {} with params {:?}",

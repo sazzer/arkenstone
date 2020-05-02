@@ -1,0 +1,10 @@
+---
+source: tests/authentication/google/complete.rs
+expression: res.to_json().unwrap()
+---
+{
+  "detail": "Authentication failed with the authentication provider: Unsuccessful response received from Google",
+  "status": 400,
+  "title": "Failed to authenticate user",
+  "type": "tag:arkenstone,2020:authentication/problems/authentication_error"
+}

@@ -1,0 +1,10 @@
+---
+source: tests/test.rs
+expression: res.to_json().unwrap()
+---
+{
+  "detail": "Authentication failed with the authentication provider: ID Token was not present in response",
+  "status": 400,
+  "title": "Failed to authenticate user",
+  "type": "tag:arkenstone,2020:authentication/problems/authentication_error"
+}

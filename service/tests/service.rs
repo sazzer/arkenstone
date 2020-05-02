@@ -8,10 +8,16 @@ pub struct Service<'db> {
 
 impl<'db> Service<'db> {
     pub async fn new() -> Service<'db> {
+        Service::new_with_settings(&mut |_| {}).await
+    }
+
+    pub async fn new_with_settings(
+        config: &mut dyn FnMut(&mut arkenstone_lib::Settings),
+    ) -> Service<'db> {
         let _ = env_logger::try_init();
         let db = arkenstone_lib::testing::database::TestDatabase::default();
 
-        let settings = arkenstone_lib::Settings {
+        let mut settings = arkenstone_lib::Settings {
             database_url: db.url.clone(),
 
             google_client_id: Some("googleClientId".to_owned()),
@@ -22,6 +28,7 @@ impl<'db> Service<'db> {
                 "http://localhost:8000/authentication/google/complete".to_owned(),
             ),
         };
+        config(&mut settings);
 
         let service = arkenstone_lib::Service::new(&settings).await;
 
