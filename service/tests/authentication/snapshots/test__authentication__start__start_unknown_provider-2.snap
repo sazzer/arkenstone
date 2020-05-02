@@ -1,0 +1,9 @@
+---
+source: tests/authentication/start.rs
+expression: res.to_json().unwrap()
+---
+{
+  "status": 404,
+  "title": "An Unknown Authentication Provider was requested",
+  "type": "tag:arkenstone,2020:authentication/problems/unknown_provider"
+}

@@ -1,0 +1,6 @@
+---
+source: tests/authentication/start.rs
+expression: res.headers()
+---
+HTTP/1.1 404 Not Found
+content-type: application/problem+json

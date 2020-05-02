@@ -1,0 +1,9 @@
+---
+source: tests/authentication/list_providers.rs
+expression: res.to_json().unwrap()
+---
+{
+  "providers": [
+    "google"
+  ]
+}
