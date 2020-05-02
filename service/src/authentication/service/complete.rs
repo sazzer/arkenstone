@@ -1,20 +1,8 @@
 use super::AuthenticationService;
-use crate::authentication::{repository::CompletedAuth, CompleteAuth, CompleteError};
+use crate::authentication::{CompleteAuth, CompleteError};
 use crate::players::{ProviderName, RegisterUser, UserRegistration};
 use async_trait::async_trait;
 use std::collections::HashMap;
-
-impl From<CompletedAuth> for UserRegistration {
-    fn from(auth: CompletedAuth) -> Self {
-        Self {
-            external_system: "google".to_owned(),
-            external_id: auth.external_id,
-            display_name: auth.display_name,
-            name: auth.name,
-            avatar_url: auth.avatar_url,
-        }
-    }
-}
 
 #[async_trait]
 impl CompleteAuth for AuthenticationService {
@@ -35,8 +23,16 @@ impl CompleteAuth for AuthenticationService {
             provider_name
         );
 
+        let registration = UserRegistration {
+            external_system: provider_name.clone(),
+            external_id: user_details.external_id,
+            display_name: user_details.display_name,
+            name: user_details.name,
+            avatar_url: user_details.avatar_url,
+        };
+
         self.player_service
-            .register_user(user_details.into())
+            .register_user(registration)
             .await
             .unwrap();
 

@@ -1,10 +1,10 @@
-use crate::players::PlayerModel;
+use crate::players::{PlayerModel, ProviderName};
 use async_trait::async_trait;
 
 /// Details needed to register a new user
 #[derive(Debug)]
 pub struct UserRegistration {
-    pub external_system: String,
+    pub external_system: ProviderName,
     pub external_id: String,
     pub display_name: String,
     pub name: String,
