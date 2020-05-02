@@ -1,6 +1,6 @@
 use super::AuthenticationService;
-use crate::authentication::{repository::CompletedAuth, CompleteAuth, CompleteError, ProviderName};
-use crate::players::{RegisterUser, UserRegistration};
+use crate::authentication::{repository::CompletedAuth, CompleteAuth, CompleteError};
+use crate::players::{ProviderName, RegisterUser, UserRegistration};
 use async_trait::async_trait;
 use std::collections::HashMap;
 

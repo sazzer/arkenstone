@@ -1,5 +1,6 @@
 use super::AuthenticationService;
-use crate::authentication::{ProviderName, StartAuth, StartAuthDetails, StartError};
+use crate::authentication::{StartAuth, StartAuthDetails, StartError};
+use crate::players::ProviderName;
 use uuid::Uuid;
 
 impl StartAuth for AuthenticationService {

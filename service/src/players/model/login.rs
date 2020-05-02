@@ -1,5 +1,4 @@
-use super::ProviderPlayerId;
-use crate::authentication::ProviderName;
+use super::{ProviderName, ProviderPlayerId};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Login {

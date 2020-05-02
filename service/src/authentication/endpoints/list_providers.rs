@@ -1,4 +1,5 @@
-use crate::authentication::{AuthenticationService, ListProviders, ProviderName};
+use crate::authentication::{AuthenticationService, ListProviders};
+use crate::players::ProviderName;
 use actix_web::{web, Error, HttpRequest, HttpResponse, Responder};
 use futures::future::{ready, Ready};
 use serde::Serialize;

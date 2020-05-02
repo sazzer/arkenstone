@@ -1,6 +1,7 @@
 use super::problem::AuthProblemType;
-use crate::authentication::{AuthenticationService, ProviderName, StartAuth};
+use crate::authentication::{AuthenticationService, StartAuth};
 use crate::http::problem::Problem;
+use crate::players::ProviderName;
 use actix_web::{http::Cookie, web, Error, HttpRequest, HttpResponse, Responder};
 use futures::future::{ready, Ready};
 
