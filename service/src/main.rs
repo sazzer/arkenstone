@@ -29,7 +29,10 @@ impl Settings {
 async fn main() {
     dotenv().ok();
 
-    tracing_subscriber::fmt::init();
+    #[cfg(not(debug_assertions))]
+    tracing_subscriber::fmt().json().flatten_event(false).init();
+    #[cfg(debug_assertions)]
+    tracing_subscriber::fmt().init();
 
     let settings = Settings::new();
     log::debug!("Application settings: {:?}", settings);
