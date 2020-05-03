@@ -6,6 +6,7 @@ use actix_web::{web, HttpRequest};
 use std::collections::HashMap;
 
 /// Actix handler to complete authentication with a provider
+#[tracing::instrument(skip(authentication_service, req))]
 pub async fn complete(
     authentication_service: web::Data<AuthenticationService>,
     req: HttpRequest,

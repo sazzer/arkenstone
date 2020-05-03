@@ -20,6 +20,7 @@ impl Responder for ProvidersList {
 }
 
 /// Actix handler to list the authentication providers
+#[tracing::instrument(skip(authentication_service))]
 pub async fn list_providers(
     authentication_service: web::Data<AuthenticationService>,
 ) -> ProvidersList {

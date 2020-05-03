@@ -28,7 +28,8 @@ impl Settings {
 #[actix_rt::main]
 async fn main() {
     dotenv().ok();
-    env_logger::init();
+
+    tracing_subscriber::fmt::init();
 
     let settings = Settings::new();
     log::debug!("Application settings: {:?}", settings);

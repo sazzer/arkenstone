@@ -35,6 +35,7 @@ impl Responder for ProviderRedirect {
 }
 
 /// Actix handler to start authentication with a provider
+#[tracing::instrument(skip(authentication_service))]
 pub async fn start(
     authentication_service: web::Data<AuthenticationService>,
     path: web::Path<(ProviderName,)>,
