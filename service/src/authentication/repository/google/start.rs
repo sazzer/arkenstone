@@ -4,9 +4,8 @@ use uritemplate::UriTemplate;
 
 impl ProviderStartAuth for Provider {
     fn start_auth(&self, nonce: &str) -> String {
-        log::info!(
-            "Creating authentication URL for Google with Nonce: {} and Settings: {:?}",
-            nonce,
+        log::debug!(
+            "Creating authentication URL with Settings: {:?}",
             self.settings
         );
 
@@ -17,8 +16,6 @@ impl ProviderStartAuth for Provider {
             .set("scope", "openid email profile")
             .set("state", nonce)
             .build();
-
-        log::debug!("Build URI for authentication with Google: {}", uri);
 
         uri
     }
