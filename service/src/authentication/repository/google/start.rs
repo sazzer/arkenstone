@@ -9,14 +9,12 @@ impl ProviderStartAuth for Provider {
             self.settings
         );
 
-        let uri = UriTemplate::new(self.settings.auth_url.as_ref())
+        UriTemplate::new(self.settings.auth_url.as_ref())
             .set("client_id", self.settings.client_id.as_str())
             .set("redirect_uri", self.settings.redirect_url.as_str())
             .set("response_type", "code")
             .set("scope", "openid email profile")
             .set("state", nonce)
-            .build();
-
-        uri
+            .build()
     }
 }

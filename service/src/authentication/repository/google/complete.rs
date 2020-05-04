@@ -13,11 +13,9 @@ impl ProviderCompleteAuth for Provider {
         &self,
         params: HashMap<String, String>,
     ) -> Result<CompletedAuth, CompleteAuthError> {
-        let auth_code = params
-            .get("code")
-            .ok_or(CompleteAuthError::AuthenticationError(
-                "Missing required parameter: code".to_owned(),
-            ))?;
+        let auth_code = params.get("code").ok_or_else(|| {
+            CompleteAuthError::AuthenticationError("Missing required parameter: code".to_owned())
+        })?;
 
         let client = reqwest::Client::new();
 
