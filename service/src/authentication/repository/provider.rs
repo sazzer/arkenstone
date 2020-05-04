@@ -1,3 +1,4 @@
+use crate::players::ProviderPlayerId;
 use async_trait::async_trait;
 use std::collections::HashMap;
 
@@ -10,7 +11,7 @@ pub trait ProviderStartAuth {
 /// Details of a completed authentication from an authentication provider
 #[derive(Debug, PartialEq)]
 pub struct CompletedAuth {
-    pub external_id: String,
+    pub external_id: ProviderPlayerId,
     pub display_name: String,
     pub name: String,
     pub avatar_url: Option<String>,

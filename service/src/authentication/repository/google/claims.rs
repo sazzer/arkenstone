@@ -1,4 +1,5 @@
 use crate::authentication::repository::{CompleteAuthError, CompletedAuth};
+use crate::players::ProviderPlayerId;
 use serde::Deserialize;
 use std::convert::TryFrom;
 
@@ -11,7 +12,7 @@ pub struct GoogleToken {
 /// The shape of the claims inside the ID Token from Google
 #[derive(Debug, Deserialize)]
 pub struct GoogleClaims {
-    sub: String,
+    sub: ProviderPlayerId,
     email: String,
     name: String,
     picture: Option<String>,

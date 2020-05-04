@@ -1,5 +1,5 @@
 use crate::authentication::{repository::CompleteAuthError, AuthenticationService};
-use crate::players::{ProviderName, RegisterUser, UserRegistration};
+use crate::players::{ProviderName, UserRegistration};
 use std::collections::HashMap;
 
 #[derive(thiserror::Error, Debug, PartialEq)]
