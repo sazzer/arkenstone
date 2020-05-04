@@ -1,7 +1,9 @@
+use crate::authentication::AuthenticationService;
 use crate::players::ProviderName;
 
-/// Use Case to get a list of authentication providers
-pub trait ListProviders {
+impl AuthenticationService {
     /// Get a list of all known authentication providers
-    fn list_providers(&self) -> Vec<&ProviderName>;
+    pub fn list_providers(&self) -> Vec<&ProviderName> {
+        self.registry.list_providers()
+    }
 }

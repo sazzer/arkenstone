@@ -1,4 +1,4 @@
-use crate::authentication::{AuthenticationService, ListProviders};
+use crate::authentication::AuthenticationService;
 use crate::players::ProviderName;
 use actix_web::{web, Error, HttpRequest, HttpResponse, Responder};
 use futures::future::{ready, Ready};

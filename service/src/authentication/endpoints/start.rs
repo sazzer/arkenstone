@@ -1,5 +1,5 @@
 use super::problem::AuthProblemType;
-use crate::authentication::{AuthenticationService, StartAuth};
+use crate::authentication::AuthenticationService;
 use crate::http::problem::Problem;
 use crate::players::ProviderName;
 use actix_web::{http::Cookie, web, Error, HttpRequest, HttpResponse, Responder};
