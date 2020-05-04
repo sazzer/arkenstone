@@ -18,11 +18,11 @@ impl Service {
         let db = Database::new(settings.database_url.clone()).await;
         migrate_database(&db).await.unwrap();
 
-        let healthchecker = HealthcheckConfig::default().with_component("db", Arc::new(db));
-        let players = PlayersConfig::new();
+        let players = PlayersConfig::new(db.clone());
         let authentication =
             AuthenticationConfig::new(players.player_service.clone()).with_google(settings.into());
 
+        let healthchecker = HealthcheckConfig::default().with_component("db", Arc::new(db));
         let server = Server::new(vec![
             healthchecker.configure(),
             authentication.configure(),

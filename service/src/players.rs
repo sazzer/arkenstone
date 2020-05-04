@@ -1,5 +1,6 @@
 pub(crate) mod configure;
 mod model;
+pub(super) mod repository;
 mod service;
 mod usecases;
 

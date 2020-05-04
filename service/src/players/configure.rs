@@ -1,4 +1,5 @@
-use super::PlayerService;
+use super::{repository::PlayerRepository, PlayerService};
+use crate::infrastructure::database::Database;
 use actix_web::web;
 use std::sync::Arc;
 
@@ -9,8 +10,9 @@ pub struct PlayersConfig {
 
 impl PlayersConfig {
     /// Create a new instance of the Players Config
-    pub fn new() -> Self {
-        let player_service = PlayerService::new();
+    pub fn new(database: Database) -> Self {
+        let player_repository = PlayerRepository::new(database);
+        let player_service = PlayerService::new(player_repository);
         Self { player_service }
     }
 }
